@@ -1,7 +1,7 @@
 import axios from "axios";
-import { endPoint, host } from "./constants";
+import { endPoint } from "./constants";
 
-const baseApi: string = "api/v1/auth";
+const baseApi: string = "user";
 
 class AuthAPI {
   async login(email: string, password: string) {
@@ -11,13 +11,7 @@ class AuthAPI {
       password,
     });
   }
-  async CallAPILogin(body: any) {
-    console.log('body', body);
-    return await axios.post(host, {
-      email: body.email,
-      password: body.pass
-    });
-  }
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new AuthAPI();
