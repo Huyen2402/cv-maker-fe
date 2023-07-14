@@ -12,15 +12,9 @@ export default function Login() {
     authService.setToken('test');
     navigate("/");
   };
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+
   const [err, setErr] = useState('');
-  const submitForm = async (event: any) => {
-    // event.preventDefault();
-    const value = {
-      email: email,
-      pass: pass
-    }
+  const submitForm = async (value: any) => {
     try {
       const result = await AuthAPI.CallAPILogin(value);
       console.log('result', result);
@@ -40,21 +34,21 @@ export default function Login() {
     <Layout style={{ minHeight: "100vh" }}>
       <div className="login-container">
         <div className="title-login">CV Maker</div>
-        <Form className="login-form" onFinish={(event: any) => submitForm(event)}>
+        <Form className="login-form" onFinish={(value: any) => submitForm(value)}>
           <Form.Item
             label="Email"
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
             style={{ paddingLeft: "22px" }}
           >
-             <Input  onChange={event => setEmail(event.target.value)} placeholder="Email" />
+             <Input   placeholder="Email" />
           </Form.Item>
           <Form.Item
             label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input placeholder="Password" onChange={event => setPass(event.target.value)} type="password" />
+            <Input placeholder="Password" type="password" />
           </Form.Item>
           <p style={{ color: 'red' }} >{err}</p>
           <Form.Item>

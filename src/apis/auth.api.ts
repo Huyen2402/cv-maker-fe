@@ -14,7 +14,7 @@ class AuthAPI {
     console.log('body', body);
     return await axios.post(host, {
       email: body.email,
-      password: body.pass
+      password: body.password
     });
   }
   async refreshToken(refresh_token: string) {
