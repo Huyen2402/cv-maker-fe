@@ -1,5 +1,5 @@
 import axios from "axios";
-import { endPoint } from "./constants";
+import { endPoint , host} from "./constants";
 
 const baseApi: string = "user";
 
@@ -9,6 +9,12 @@ class AuthAPI {
     return await axios.post(`${endPoint}/${baseApi}/login`, {
       email,
       password,
+    });
+  }
+
+  async refreshToken(refresh_token: string) {
+    return await axios.post(`http://localhost:9000/user/refresh-token`, {
+      refresh_token,
     });
   }
 }

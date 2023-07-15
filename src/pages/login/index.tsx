@@ -27,18 +27,35 @@ export default function Login() {
     }
   };
 
+  const [err, setErr] = useState('');
+  const submitForm = async (value: any) => {
+    try {
+      const result = await AuthAPI.CallAPILogin(value);
+      console.log('result', result);
+      if(result.status === 200){
+        authService.setToken(result.data.accessToken);
+        localStorage.setItem("accessToken", result.data.accessToken);
+        localStorage.setItem("refreshToken", result.data.refreshToken);
+        navigate("/");
+      }
+    } catch (error) {
+      setErr('Sai thông tin đăng nhập');
+      console.log(error);
+    }
+
+  };
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <div className="login-container">
         <div className="title-login">CV Maker</div>
-        <Form className="login-form" onFinish={onFinish}>
+        <Form className="login-form" onFinish={(value: any) => submitForm(value)}>
           <Form.Item
             label="Email"
             name="email"
             rules={[{ required: true, message: "Please input your email!" }]}
             style={{ paddingLeft: "22px" }}
           >
-            <Input placeholder="Email" />
+             <Input   placeholder="Email" />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -47,7 +64,9 @@ export default function Login() {
           >
             <Input placeholder="Password" type="password" />
            
+            <Input placeholder="Password" type="password" />
           </Form.Item>
+          <p style={{ color: 'red' }} >{err}</p>
           <Form.Item>
             <Checkbox>Remember me</Checkbox>
             <a className="login-form-forgot" href="">
