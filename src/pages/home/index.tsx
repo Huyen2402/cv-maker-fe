@@ -1,6 +1,9 @@
 import "./index.css";
+import authApi from "../../apis/auth.api";
 
 export default function Home() {
+  authApi.common();
+  
   return (
     <div className="container">
       <div className="container-home">
