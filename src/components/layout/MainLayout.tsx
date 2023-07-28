@@ -5,7 +5,7 @@ import "../../App.css";
 import LogoComponent from "../logo/LogoComponent";
 import MenuComponent from "../menu/MenuComponent";
 import HeaderComponent from "../header/HeaderComponent";
-
+import GetTemplate from "../../../src/pages/templates/getList";
 const { Sider, Content } = Layout;
 
 function MainLayout(props: any) {
@@ -36,6 +36,7 @@ function MainLayout(props: any) {
             background: colorBgContainer,
           }}
         >
+        
           {props?.children}
           <Outlet />
         </Content>

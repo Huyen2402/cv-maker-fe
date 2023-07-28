@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import { RequireAuth } from "./guards/RequireAuth";
 import MainLayout from "./components/layout/MainLayout";
+import Template from "./pages/templates";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             </RequireAuth>
           />
         </Route>
+         <Route path="/templates/list" element=<Template/> />
         <Route path="/login" element=<Login /> />
       </Routes>
     </Router>
