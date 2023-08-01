@@ -4,6 +4,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   FileAddOutlined,
+  FileImageFilled,
 } from "@ant-design/icons";
 
 const menus = [
@@ -21,6 +22,29 @@ const menus = [
     key: "/my-cv/add",
     icon: <FileAddOutlined />,
     label: "Add New",
+  },
+  {
+    key: "/templates/list",
+    icon: <FileImageFilled />,
+    label: "Templates",
+    children: [
+      {
+        key: "/templates/list",
+        icon: <LogoutOutlined />,
+        label: "List Templates",
+      },
+      {
+        key: "/templates/add",
+        icon:<FileAddOutlined />,
+        label: "Add Templates",
+      },
+      {
+        key: "/templates/edit",
+        icon: <LogoutOutlined />,
+        label: "Edit Templates",
+      }
+    ],
+    
   },
   {
     key: "/account",
