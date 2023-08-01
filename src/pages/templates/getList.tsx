@@ -35,6 +35,7 @@ interface DataType {
 
 function GetTemplate() {
   const [data, setData] : any = useState([]);
+  
     useEffect(() => {
       async function get() {
         let item;
@@ -52,7 +53,7 @@ function GetTemplate() {
         setData(data1);
       }
       get();
-    });
+    },[]);
     
   return (
     // <MainLayout/>
