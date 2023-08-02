@@ -2,7 +2,7 @@ import TemplateAPI from "../../apis/templates.api";
 import MainLayout from "../../components/layout/MainLayout";
 import GetTemplate from "../templates/getList";
 import React, { Fragment, useState } from "react";
-import { Button, Modal, Form, Input, Upload } from "antd";
+import { Button, Modal, Form, Input, Upload, notification } from "antd";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import FormItem from "antd/es/form/FormItem";
 function Template() {
@@ -32,8 +32,10 @@ function Template() {
       const resutl =  await TemplateAPI.addTemplate(body);
         console.log(resutl);
         if(resutl?.status === 201 && resutl.data === true)
-        console.log("success");
-        
+        notification.success({
+          message: 'Add new template successly!',
+          placement: "topRight",
+        });
       }
     } catch (error) {
       console.log(error);

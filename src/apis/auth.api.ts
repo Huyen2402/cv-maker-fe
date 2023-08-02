@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt from "jwt-decode";
-import { endPoint } from "./constants";
+import { endPoint, host } from "./constants";
 import { setAccessToken } from "../common/utils";
 
 const baseApi: string = "user";
