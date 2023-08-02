@@ -17,8 +17,7 @@ function MainLayout(props: any) {
 
   useEffect(() => {
     setIsAdmin(localStorage.getItem("token") ? true : false);
-    console.log("isAdmin", isAdmin);
-  });
+  }, [isAdmin]);
 
   return (
     <Layout style={{minHeight:"100vh"}}>
