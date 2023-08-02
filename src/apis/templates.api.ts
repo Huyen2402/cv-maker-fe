@@ -10,7 +10,7 @@ class TemplateAPI {
       if(body){
         const file: File = body.name.file.originFileObj as File
         const title: string = body?.title
-        const image: string = body?.image
+        const image: File = body?.image.file.originFileObj as File
         if(file && title && image){
           formData.append("file_template",file)
           formData.append("title",title)

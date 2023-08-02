@@ -29,8 +29,11 @@ function Template() {
   async function submit(body: any) {
     try {
       if(body){
-        await TemplateAPI.addTemplate(body);
-
+      const resutl =  await TemplateAPI.addTemplate(body);
+        console.log(resutl);
+        if(resutl?.status === 201 && resutl.data === true)
+        console.log("success");
+        
       }
     } catch (error) {
       console.log(error);
@@ -60,12 +63,13 @@ function Template() {
           <Form.Item label="Title" name="title" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-
-          <Form.Item label="Image" name="image" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item name="image" label="Image" rules={[{ required: true }]}>
+            <Upload name="logo" listType="picture" accept=".png,.jpeg,.jpg">
+              <Button icon={<UploadOutlined />}>Click to upload</Button>
+            </Upload>
           </Form.Item>
           <Form.Item name="name" label="Upload" rules={[{ required: true }]}>
-            <Upload name="logo" listType="picture">
+            <Upload name="logo" listType="picture" accept=".docx">
               <Button icon={<UploadOutlined />}>Click to upload</Button>
             </Upload>
           </Form.Item>

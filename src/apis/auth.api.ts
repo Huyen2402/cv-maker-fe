@@ -5,7 +5,7 @@ const baseApi: string = "api/v1/auth";
 
 class AuthAPI {
   async login(email: string, password: string) {
-    return await axios.post(`${endPoint}/${baseApi}/login`, {
+    return await axios.post(`${host}`, {
       email,
       password,
     });
