@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Checkbox, Form, Input, Layout, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import UserAPI from "../../apis/user.api";
-import { setAccessToken, setRefreshToken } from "../../common/utils";
+import UserAPI from "../../apis/auth.api";
+import { setAccessToken } from "../../common/utils";
+import { AxiosError } from "axios";
 export default function Login() {
   const navigate = useNavigate();
 
@@ -11,7 +12,6 @@ export default function Login() {
       const result = await UserAPI.login(values.email, values.password);
         if(result.status === 200){
           setAccessToken(result.data.accessToken);
-          setRefreshToken(result.data.refreshToken);
           navigate("/");
         } else {
           notification.error({
@@ -19,11 +19,29 @@ export default function Login() {
             placement: "topRight",
           });
         }
-    } catch (error) {
-      notification.error({
-        message: 'Email or password is incorrect!',
-        placement: "topRight",
-      });
+    } catch (error: any) {
+      switch (error.respose.statusCode) {
+        case 401:
+          notification.error({
+            message: 'Email or password is incorrect!',
+            placement: "topRight",
+          });
+          break;
+        case 402:
+            notification.error({
+              message: '402 error ...!',
+              placement: "topRight",
+            });
+           break;
+        
+        default:
+          notification.error({
+            message: 'Email or password is incorrect!',
+            placement: "topRight",
+          });
+          break;
+      }
+     
     }
   };
 
@@ -38,7 +56,7 @@ export default function Login() {
             rules={[{ required: true, message: "Please input your email!" }]}
             style={{ paddingLeft: "22px" }}
           >
-            <Input placeholder="Email" />
+             <Input   placeholder="Email" />
           </Form.Item>
           <Form.Item
             label="Password"
@@ -46,7 +64,6 @@ export default function Login() {
             rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input placeholder="Password" type="password" />
-           
           </Form.Item>
           <Form.Item>
             <Checkbox>Remember me</Checkbox>
