@@ -1,13 +1,13 @@
 import axios from "axios";
 import jwt from "jwt-decode";
-import { endPoint } from "./constants";
+import { endPoint, host } from "./constants";
 import { setAccessToken } from "../common/utils";
 
 const baseApi: string = "user";
 
 class AuthAPI {
   async login(email: string, password: string) {
-    return await axios.post(`${endPoint}/${baseApi}/login`, {
+    return await axios.post(`${host}`, {
       email,
       password,
     });

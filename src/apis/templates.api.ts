@@ -10,15 +10,19 @@ class TemplateAPI {
       if(body){
         const file: File = body.name.file.originFileObj as File
         const title: string = body?.title
-        const image: string = body?.image
+        const image: File = body?.image.file.originFileObj as File
         if(file && title && image){
           formData.append("file_template",file)
           formData.append("title",title)
           formData.append("image",image)
-          return await axios.post(`${hostBE}/${template}/add`, formData, {
+
+          const req = await axios.post(`${hostBE}/${template}/add`, formData, {
               headers: { "content-type": "multipart/form-data" },
 
           } );
+
+
+          return req.data
 
         }
       }
@@ -26,4 +30,4 @@ class TemplateAPI {
     }
   }
 
-  export default new TemplateAPI();
+export default new TemplateAPI();
