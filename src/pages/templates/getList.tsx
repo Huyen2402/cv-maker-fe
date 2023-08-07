@@ -15,6 +15,7 @@ interface DataType {
   action: string;
   image: number;
   title: string;
+  file: string
 }
 
 
@@ -97,6 +98,7 @@ function GetTemplate() {
           key: x.id,
           title: x.title,
           image: x.image,
+          file: x.name
         });
       });
 

@@ -5,6 +5,9 @@ class TemplateAPI {
     async getAll() {
       return await axios.get(`${hostBE}/${template}/get-all-templates`);
     }
+    async getByID(id: number) {
+      return await axios.get(`${hostBE}/${template}/get/${id}`);
+    }
     async addTemplate(body:any) {
       let formData: FormData = new FormData();
       if(body){
@@ -17,6 +20,40 @@ class TemplateAPI {
           formData.append("image",image)
 
           const req = await axios.post(`${hostBE}/${template}/add`, formData, {
+              headers: { "content-type": "multipart/form-data" },
+
+          } );
+
+
+          return req.data
+
+        }
+      }
+     
+    }
+    async editTemplate(body:any) {
+      console.log('editTemplate', body);
+      
+      let formData: FormData = new FormData();
+      let image: any = '';
+      let file: any = '';
+      if(body){
+        if(body.name){
+           file = body.name.file.originFileObj as File 
+        }
+        if(body.image){
+           image = body.image.file.originFileObj as File 
+        }
+        console.log('image', image);
+        
+        const title: string = body?.title
+        
+        if(title){
+          formData.append("file_template",file)
+          formData.append("title",title)
+          formData.append("image",image)
+
+          const req = await axios.put(`${hostBE}/${template}/update/${body.id}`, formData, {
               headers: { "content-type": "multipart/form-data" },
 
           } );
