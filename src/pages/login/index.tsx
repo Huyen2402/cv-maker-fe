@@ -3,6 +3,7 @@ import { Button, Checkbox, Form, Input, Layout, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import UserAPI from "../../apis/auth.api";
 import { setAccessToken } from "../../common/utils";
+import { AxiosError } from "axios";
 export default function Login() {
   const navigate = useNavigate();
 
@@ -18,11 +19,29 @@ export default function Login() {
             placement: "topRight",
           });
         }
-    } catch (error) {
-      notification.error({
-        message: 'Email or password is incorrect!',
-        placement: "topRight",
-      });
+    } catch (error: any) {
+      switch (error.respose.statusCode) {
+        case 401:
+          notification.error({
+            message: 'Email or password is incorrect!',
+            placement: "topRight",
+          });
+          break;
+        case 402:
+            notification.error({
+              message: '402 error ...!',
+              placement: "topRight",
+            });
+           break;
+        
+        default:
+          notification.error({
+            message: 'Email or password is incorrect!',
+            placement: "topRight",
+          });
+          break;
+      }
+     
     }
   };
 

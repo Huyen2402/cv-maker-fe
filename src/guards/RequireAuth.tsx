@@ -6,7 +6,7 @@ export const RequireAuth = ({ children, ...rest }: any) => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     setIsAdmin(token ? 1 : 0);
-  }, []);
+  }, [isAdmin]);
 
   
     if (isAdmin === 1) {

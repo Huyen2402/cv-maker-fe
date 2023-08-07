@@ -14,7 +14,8 @@ export default function MenuComponent(props: any) {
     console.log(data);
     const itemMenu = menus.find(x=> x.key === data);
     setSelect(itemMenu?.key);
-  });
+  },[pathname]);
+
 
   
   return (
