@@ -15,12 +15,24 @@ function ModalTemplate(props: ModalProps) {
   async function submit(body: any) {
     try {
       if (body) {
-        const response = await TemplateAPI.addTemplate(body);
-        if (response && response.status === 201 && response.data === true)
+        if(body.id){
+          const response = await TemplateAPI.editTemplate(body);
+          if (response && response === true)
           notification.success({
-            message: "Add new template successfully!",
+            message: "Update template successfully!",
             placement: "topRight",
           });
+          
+        }
+        else{
+          const response = await TemplateAPI.addTemplate(body);
+          if (response && response.status === 201 && response.data === true)
+            notification.success({
+              message: "Add new template successfully!",
+              placement: "topRight",
+            });
+        }
+        
       }
     } catch (error) {
       console.log(error);
@@ -29,12 +41,7 @@ function ModalTemplate(props: ModalProps) {
 
   console.log(props.item);
 
-  // name: ten cua file , tra ve = response hoac random hoac lay tren url cua image neu co
-  //  status: "thay status la thay mau` cua file"
-  // response sao cx dc
-  // url ....
-
-  const defaultFileList: any = React.useMemo(() => {
+  const defaultImage: any = React.useMemo(() => {
     return [
       {
         uid: props.item?.key,
@@ -43,16 +50,20 @@ function ModalTemplate(props: ModalProps) {
         response: "200", // custom error message to show
         url: props.item?.image,
       },
-      // {
-      //   uid: props.item?.key,
-      //   name: props.item?.title + ".png",
-      //   status: "error",
-      //   response: "500", // custom error message to show
-      //   url: props.item?.image,
-      // },
     ];
   }, [props.item]);
 
+  const defaultFile: any = React.useMemo(() => {
+    return [
+      {
+        uid: props.item?.key,
+        name: props.item?.title + ".docx",
+        status: "done",
+        response: "200", // custom error message to show
+        url: props.item?.file,
+      },
+    ];
+  }, [props.item]);
 
   return (
     <Modal
@@ -69,11 +80,17 @@ function ModalTemplate(props: ModalProps) {
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         autoComplete="off"
+        onFinish={(body) => submit(body)}
       >
-        <Form.Item label="Title" name="title" rules={[{ required: true }]}>
-          <Input defaultValue={props.isEdit ? props.item?.title : ""} />
+        <Form.Item style={{display: 'none'}} initialValue={props.isEdit ? props.item?.key : ""} label="ID" name="id" >
+          <Input defaultValue={props.isEdit ? props.item?.key : ""} />
+       
         </Form.Item>
-        <Form.Item name="image" label="Image" rules={[{ required: true }]}>
+      <Form.Item initialValue={props.isEdit ? props.item?.title : ""} label="Title" name="title" >
+          <Input defaultValue={props.isEdit ? props.item?.title : ""} />
+       
+        </Form.Item>
+        <Form.Item  name="image" label="Image" >
           <Upload
           
             name="logo"
@@ -81,18 +98,19 @@ function ModalTemplate(props: ModalProps) {
             multiple={false}
             maxCount={1}
             accept=".png,.jpeg,.jpg"
-            defaultFileList={defaultFileList || []}
+            defaultFileList={ props.isEdit ? defaultImage : ''}
           >
             <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
         </Form.Item>
-        <Form.Item name="name" label="Upload" rules={[{ required: true }]}>
+        <Form.Item  name="name" label="Upload" >
           <Upload
             name="logo"
             listType="picture"
             accept=".docx"
             multiple={false}
             maxCount={1}
+            defaultFileList={ props.isEdit ? defaultFile : ''}
           >
             <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
