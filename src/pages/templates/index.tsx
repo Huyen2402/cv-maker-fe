@@ -24,8 +24,6 @@ function Template() {
 
   (async function getData() {
     const response = await TemplateAPI.getAll();
-
-    console.log(response);
     
   })();
 

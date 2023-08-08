@@ -39,8 +39,6 @@ function ModalTemplate(props: ModalProps) {
     }
   }
 
-  console.log(props.item);
-
   const defaultImage: any = React.useMemo(() => {
     return [
       {
