@@ -5,7 +5,7 @@ import Login from "./pages/login";
 import { RequireAuth } from "./guards/RequireAuth";
 import MainLayout from "./components/layout/MainLayout";
 import Template from "./pages/templates";
-
+import AddCV from "./pages/cv/add-cv";
 function App() {
   return (
     <Router>
@@ -18,6 +18,7 @@ function App() {
             </RequireAuth>
           />
         </Route>
+         <Route path="/my-cv/add" element=<AddCV/> />
          <Route path="/templates/list" element=<Template/> />
         <Route path="/login" element=<Login /> />
       </Routes>
