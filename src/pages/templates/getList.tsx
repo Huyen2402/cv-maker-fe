@@ -1,15 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TemplateAPI from "../../apis/templates.api";
-import Home from "../../pages/home";
-import Login from "../../pages/login";
-import { RequireAuth } from "../../guards/RequireAuth";
-import MainLayout from "../../components/layout/MainLayout";
 import type { ColumnsType } from "antd/es/table";
 import { Divider, Radio, Table, Button, Space, Modal } from "antd";
 import ModalTemplate from "../templates/modal.template";
 import { EditOutlined, CloseOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import "./template.css";
+import Swal from 'sweetalert2';
 interface DataType {
   key: React.Key;
   action: string;
@@ -49,7 +46,7 @@ function GetTemplate() {
         <Button
           shape="circle"
           size={'large'}
-         
+          onClick={()=>deleteItem(record)}
           icon={<CloseOutlined />}
         />
    
@@ -64,14 +61,11 @@ function GetTemplate() {
 
   const showModal = (re: any) => {
 
-    
     if(re){
       setItem(re);
       setIsModalOpen(true);
     }
-
   };
-
   const handleOk = () => {
     setItem({})
     setIsModalOpen(false);
@@ -83,8 +77,38 @@ function GetTemplate() {
     setIsModalOpen(false);
 
   };
+  const deleteItem = async (item: DataType) => {
+  Swal.fire({
+    title: 'The Delete?',
+    text: 'That thing is will be deleted?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then(async(result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      const response = await TemplateAPI.deleteByID(item.key);
+      if(response.status === 200){
+        Swal.fire({
+          icon: 'success',
+          title: 'Saved!',
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        })
+      }
+      
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info')
+    }
+  })
+   
 
-  console.log(item);
+  };
   
 
 

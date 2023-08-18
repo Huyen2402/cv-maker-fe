@@ -32,8 +32,6 @@ class TemplateAPI {
      
     }
     async editTemplate(body:any) {
-      console.log('editTemplate', body);
-      
       let formData: FormData = new FormData();
       let image: any = '';
       let file: any = '';
@@ -44,8 +42,6 @@ class TemplateAPI {
         if(body.image){
            image = body.image.file.originFileObj as File 
         }
-        console.log('image', image);
-        
         const title: string = body?.title
         
         if(title){
@@ -64,6 +60,9 @@ class TemplateAPI {
         }
       }
      
+    }
+    async deleteByID(id: any) {
+      return await axios.delete(`${hostBE}/${template}/delete/${id}`);
     }
   }
 
