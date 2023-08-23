@@ -5,7 +5,7 @@ import {
   UploadOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Button, Image, Form, Input, Radio, Upload, notification } from "antd";
+import { Button, Image, Form, Input, Radio, Upload, notification, Steps } from "antd";
 import MainLayout from "../../components/layout/MainLayout";
 import type { RadioChangeEvent } from "antd";
 import ExperiencesList from "../../components/list/ExperiencesList";
@@ -181,7 +181,7 @@ function AddCV() {
     experince: object;
     template_id: number
   }
-  
+  const [step, setStep] = useState(1);
   const SubmitAddCV = async (cv: CV) => {
     const accessToken: any = localStorage.getItem("accessToken");
     const decode: any = jwt(accessToken);
@@ -204,11 +204,22 @@ function AddCV() {
     
     const response = await cvApi.addCV(body);
     console.log(response);
-    if (response && response === true)
-          notification.success({
-            message: "Add CV successfully!",
-            placement: "topRight",
-          });
+    if (response.status === 200){
+      setStep(1);
+      notification.success({
+        message: "Add CV successfully!",
+        placement: "topRight",
+      });
+
+      const responsePDF = await cvApi.downloadPDF(response.id);
+        if (responsePDF && responsePDF.status === 200)
+        {
+          window.open(response.data.url);
+          setStep(2);
+        }
+         
+    }
+    
   }
 
 
@@ -366,6 +377,23 @@ function AddCV() {
           </Button>
         </Form.Item>
       </Form>
+      <Steps
+    current={step}
+    items={[
+      {
+        title: 'Save CV',
+        
+      },
+      {
+        title: 'Generate PDF',
+        
+      },
+      {
+        title: 'Done',
+        
+      },
+    ]}
+  />
     </MainLayout>
   );
 }
