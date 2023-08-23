@@ -1,4 +1,5 @@
 import React, {useState, useEffect } from "react";
+import jwt from "jwt-decode";
 import TemplateAPI from "../../apis/templates.api";
 import {
   UploadOutlined,
@@ -180,8 +181,13 @@ function AddCV() {
     experince: object;
     template_id: number
   }
+  
   const SubmitAddCV = async (cv: CV) => {
+    const accessToken: any = localStorage.getItem("accessToken");
+    const decode: any = jwt(accessToken);
+    
    const body = {
+    userId: decode.data._id,
     name: cv.name,
     job_title: cv.job_title,
     phone: cv.phone,

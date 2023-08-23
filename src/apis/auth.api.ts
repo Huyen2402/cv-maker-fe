@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt from "jwt-decode";
-import { endPoint, host } from "./constants";
+import { endPoint, host, hostBE } from "./constants";
 import { setAccessToken } from "../common/utils";
 
 const baseApi: string = "user";
@@ -14,7 +14,7 @@ class AuthAPI {
   }
 
   async refreshToken(accessToken: string) {
-    return await axios.post(`http://localhost:9000/user/refresh-token`, {
+    return await axios.post(`${hostBE}/user/refresh-token`, {
       accessToken,
     });
   }
