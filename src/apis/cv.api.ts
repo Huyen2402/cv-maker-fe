@@ -1,11 +1,15 @@
 import axios from "axios";
 import { template , hostBE, cv} from "./constants";
 class CVAPI {
+  async getAll() {
+    return await axios.get(`${hostBE}/${cv}/get-mycv`);
+  }
 async addCV(body:any) {
     let formData: FormData = new FormData();
     console.log(body);
     
     if(body){
+      const userId: string = body.userId;
       const name: string = body.name;
       const job_title = body.job_title;
       const phone = body.phone;
@@ -19,6 +23,7 @@ async addCV(body:any) {
       const template_id = body.template_id;
       const avatar: File = body?.avatar.file.originFileObj as File
       if(avatar){
+        formData.append("userId", userId)
         formData.append("name",name)
         formData.append("job_title",job_title)
         formData.append("address",address)
@@ -42,6 +47,10 @@ async addCV(body:any) {
       }
     }
    
+  }
+
+  async downloadPDF(cvId: number) {
+    return await axios.post(`${hostBE}/${cv}/download-pdf`, {cvId}, {headers: { "content-type": "multipart/form-data" }});
   }
 }
 export default new CVAPI();
