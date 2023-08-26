@@ -1,54 +1,13 @@
-import axios from "axios";
-import jwt from "jwt-decode";
-import { endPoint, host, hostBE } from "./constants";
-import { setAccessToken } from "../common/utils";
+import apiClient from "./base.api";
 
-const baseApi: string = "user";
+const path: string = "user";
 
 class AuthAPI {
   async login(email: string, password: string) {
-    return await axios.post(`${host}`, {
+    return await apiClient.post(`${path}/login`, {
       email,
       password,
     });
-  }
-
-  async refreshToken(accessToken: string) {
-    return await axios.post(`${hostBE}/user/refresh-token`, {
-      accessToken,
-    });
-  }
-
-  async common() {
-    const res = await this.checkToken();
-    if (!res) {
-      const accessToken: any = localStorage.getItem("accessToken");
-      try {
-        const result = await this.refreshToken(accessToken);
-        setAccessToken(result.data.accessToken);
-      } catch (error) {
-        // eslint-disable-next-line no-restricted-globals
-        location.href = '/login';
-      }
-    }
-    return await axios.get(`${endPoint}/${baseApi}/common`);
-  }
-
-  async checkToken() {
-    const accessToken: any = localStorage.getItem("accessToken");
-    const decode: any = jwt(accessToken);
-    const dateRF = decode.exp * 1000;
-    const start = Date.now();
-    if (dateRF <= start) {
-      try {
-        return false;
-        // eslint-disable-next-line no-unreachable
-      } catch (error) {
-        return false;
-      }
-    } else {
-      return true;
-    }
   }
 }
 

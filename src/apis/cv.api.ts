@@ -1,8 +1,11 @@
 import axios from "axios";
-import { template , hostBE, cv} from "./constants";
+import apiClient from "./base.api";
+
+const path: string = "cv";
+
 class CVAPI {
   async getAll() {
-    return await axios.get(`${hostBE}/${cv}/get-mycv`);
+    return await apiClient.get(`/${path}/get-mycv`);
   }
 async addCV(body:any) {
     let formData: FormData = new FormData();
@@ -36,7 +39,7 @@ async addCV(body:any) {
         formData.append("experince",experince)
         formData.append("template_id",template_id)
         formData.append("avatar",avatar)
-        const req = await axios.post(`${hostBE}/${cv}/add`, formData, {
+        const req = await axios.post(`/${path}/add`, formData, {
             headers: { "content-type": "multipart/form-data" },
 
         } );
@@ -50,7 +53,9 @@ async addCV(body:any) {
   }
 
   async downloadPDF(cvId: number) {
-    return await axios.post(`${hostBE}/${cv}/download-pdf`, {cvId}, {headers: { "content-type": "multipart/form-data" }});
+    return await apiClient.post(`/${path}/download-pdf`, {cvId}, {headers: { "content-type": "multipart/form-data" }});
   }
 }
+
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new CVAPI();

@@ -5,8 +5,8 @@ export function getToken() {
   return token === "" ? null : token;
 }
 
-export function setAccessToken(token: string) {
-  localStorage.setItem("accessToken", token);
+export function setLocalItem(key: string, value: string) {
+  localStorage.setItem(key, value);
 }
 
 export function getUserInfo(){

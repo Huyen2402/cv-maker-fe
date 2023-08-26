@@ -1,12 +1,14 @@
 import axios from "axios";
-import { template , hostBE} from "./constants";
+import apiClient from "./base.api";
+
+const path: string = "template";
 
 class TemplateAPI {
     async getAll() {
-      return await axios.get(`${hostBE}/${template}/get-all-templates`);
+      return await apiClient.get(`${path}/get-all-templates`);
     }
     async getByID(id: number) {
-      return await axios.get(`${hostBE}/${template}/get/${id}`);
+      return await axios.get(`${path}/get/${id}`);
     }
     async addTemplate(body:any) {
       let formData: FormData = new FormData();
@@ -19,7 +21,7 @@ class TemplateAPI {
           formData.append("title",title)
           formData.append("image",image)
 
-          const req = await axios.post(`${hostBE}/${template}/add`, formData, {
+          const req = await axios.post(`${path}/add`, formData, {
               headers: { "content-type": "multipart/form-data" },
 
           } );
@@ -49,7 +51,7 @@ class TemplateAPI {
           formData.append("title",title)
           formData.append("image",image)
 
-          const req = await axios.put(`${hostBE}/${template}/update/${body.id}`, formData, {
+          const req = await axios.put(`${path}/update/${body.id}`, formData, {
               headers: { "content-type": "multipart/form-data" },
 
           } );
@@ -62,8 +64,9 @@ class TemplateAPI {
      
     }
     async deleteByID(id: any) {
-      return await axios.delete(`${hostBE}/${template}/delete/${id}`);
+      return await axios.delete(`${path}/delete/${id}`);
     }
   }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new TemplateAPI();

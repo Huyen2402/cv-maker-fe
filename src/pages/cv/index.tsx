@@ -27,9 +27,9 @@ function MyCV() {
           render: (_:any, record: any) =>   <Space size="middle">
        <Button type="primary" shape="round" icon={<DownloadOutlined />} onClick={async ()=>{
        
-        const response = await cvApi.downloadPDF(record.id);
-        if (response && response.status === 200)
-          window.open(response.data.url);
+        const response: any = await cvApi.downloadPDF(record.id);
+        if (response)
+          window.open(response.url);
       }
        }>
             Download
@@ -63,8 +63,8 @@ function MyCV() {
       React.useEffect(() => {
         async function get() {
           let item;
-          const result = await cvApi.getAll();
-          const array = result.data;
+          const result: any = await cvApi.getAll();
+          const array = result;
           const data1 = array.map((x: any) => {
             return (item = {
               key: x.id,

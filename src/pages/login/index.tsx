@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Checkbox, Form, Input, Layout, notification } from "antd";
 import { useNavigate } from "react-router-dom";
-import UserAPI from "../../apis/auth.api";
-import { setAccessToken } from "../../common/utils";
-import { AxiosError } from "axios";
+import userAPI from "../../apis/auth.api";
+import { setLocalItem } from "../../common/utils";
 export default function Login() {
   const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
     try {
-      const result = await UserAPI.login(values.email, values.password);
-        if(result.status === 200){
-          setAccessToken(result.data.accessToken);
+      const result: any = await userAPI.login(values.email, values.password);
+        if(result){
+          setLocalItem('accessToken', result.accessToken);
+          setLocalItem('refreshToken', result.refreshToken);
           navigate("/");
         } else {
           notification.error({

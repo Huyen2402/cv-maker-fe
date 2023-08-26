@@ -1,4 +1,4 @@
-import TemplateAPI from "../../apis/templates.api";
+import templateAPI from "../../apis/templates.api";
 import MainLayout from "../../components/layout/MainLayout";
 import GetTemplate from "../templates/getList";
 import ModalTemplate from "../templates/modal.template";
@@ -21,12 +21,6 @@ function Template() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  (async function getData() {
-    const response = await TemplateAPI.getAll();
-    
-  })();
-
 
   return (
     <MainLayout>

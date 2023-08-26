@@ -149,8 +149,8 @@ function AddCV() {
   useEffect(() => {
     async function get() {
       let item;
-      const result = await TemplateAPI.getAll();
-      const array = result.data;
+      const result: any = await TemplateAPI.getAll();
+      const array: any = result;
       const data1 = array.map((x: any) => {
         return (item = {
           key: x.id,
